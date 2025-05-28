@@ -29,7 +29,7 @@ export default function Login() {
             <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg flex items-center justify-center">
               <Cloud className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">FileVault</span>
+            <span className="text-2xl font-bold text-gray-900">Vaultix</span>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
           <p className="text-gray-600">Sign in to your organization account</p>
