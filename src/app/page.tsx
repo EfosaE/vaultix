@@ -14,7 +14,7 @@ export default function LandingPage() {
             <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg flex items-center justify-center">
               <Cloud className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900">FileVault</span>
+            <span className="text-xl font-bold text-gray-900">Vaultix</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
             <Link href="#features" className="text-gray-700 hover:text-purple-600 transition-colors">
@@ -32,7 +32,7 @@ export default function LandingPage() {
               <Link href="/login">Sign In</Link>
             </Button>
             <Button
-              className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
+              variant="gradient"
               asChild
             >
               <Link href="/register">Get Started</Link>
@@ -60,7 +60,8 @@ export default function LandingPage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
             size="lg"
-            className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-lg px-8"
+            variant="gradient"
+            className="text-lg px-8"
             asChild
           >
             <Link href="/register">
@@ -165,7 +166,7 @@ export default function LandingPage() {
       {/* Pricing Section */}
       <section
         id="pricing"
-        className="container mx-auto px-4 py-20 bg-gradient-to-r from-purple-50 to-purple-100 rounded-3xl mx-4"
+        className="container mx-auto px-4 py-20 bg-gradient-to-r from-purple-50 to-purple-100 rounded-3xl"
       >
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Simple, Transparent Pricing</h2>
@@ -173,7 +174,7 @@ export default function LandingPage() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          <Card className="border-purple-200 bg-white">
+          <Card className="border-purple-200 bg-white flex flex-col justify-between">
             <CardHeader>
               <CardTitle className="text-purple-900">Starter</CardTitle>
               <CardDescription className="text-purple-600">Perfect for small teams</CardDescription>
@@ -196,7 +197,7 @@ export default function LandingPage() {
                   <span className="text-purple-700">Email support</span>
                 </li>
               </ul>
-              <Button className="w-full mt-6 bg-purple-600 hover:bg-purple-700">Get Started</Button>
+              <Button className="w-full mt-6 bg-purple-600 hover:bg-purple-700 text-white">Get Started</Button>
             </CardContent>
           </Card>
 
@@ -273,11 +274,12 @@ export default function LandingPage() {
       <section className="container mx-auto px-4 py-20 text-center">
         <h2 className="text-4xl font-bold text-gray-900 mb-6">Ready to Transform Your File Management?</h2>
         <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
-          Join thousands of organizations already using FileVault to streamline their workflows
+          Join thousands of organizations already using Vaultix to streamline their workflows
         </p>
         <Button
           size="lg"
-          className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-lg px-8"
+          variant={"gradient"}
+          className="text-lg px-8"
           asChild
         >
           <Link href="/register">
@@ -296,7 +298,7 @@ export default function LandingPage() {
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg flex items-center justify-center">
                   <Cloud className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-bold text-gray-900">FileVault</span>
+                <span className="text-xl font-bold text-gray-900">Vaultix</span>
               </div>
               <p className="text-gray-600">Secure, scalable file storage for modern organizations.</p>
             </div>
@@ -377,7 +379,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-purple-200 mt-8 pt-8 text-center text-purple-600">
-            <p>&copy; 2024 FileVault. All rights reserved.</p>
+            <p>&copy; 2024 Vaultix. All rights reserved.</p>
           </div>
         </div>
       </footer>

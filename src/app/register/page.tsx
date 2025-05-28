@@ -1,18 +1,49 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Cloud, Building, Users, Shield, ArrowRight, Check } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Cloud,
+  Building,
+  Users,
+  Shield,
+  ArrowRight,
+  Check,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { registerUser } from "./actions";
 
 export default function Register() {
-  const [step, setStep] = useState(1)
-  const router = useRouter()
+  const [step, setStep] = useState(1);
+  const router = useRouter();
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const form = formRef.current;
+    if (!form) return;
+
+    const formData = new FormData(form);
+
+    // ✅ Call server action manually with FormData
+    await registerUser(formData);
+
+    // ✅ Move to next step
+    setStep(3);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-white flex items-center justify-center p-4">
@@ -23,37 +54,60 @@ export default function Register() {
             <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg flex items-center justify-center">
               <Cloud className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">FileVault</span>
+            <span className="text-2xl font-bold text-gray-900">Vaultix</span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Your Organization Account</h1>
-          <p className="text-gray-600">Join thousands of organizations using FileVault for secure file storage</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Create Your Organization Account
+          </h1>
+          <p className="text-gray-600">
+            Join thousands of organizations using Vaultix for secure file
+            storage
+          </p>
         </div>
 
         {/* Progress Steps */}
         <div className="flex items-center justify-center mb-8">
           <div className="flex items-center gap-4">
-            <div className={`flex items-center gap-2 ${step >= 1 ? "text-purple-600" : "text-purple-300"}`}>
+            <div
+              className={`flex items-center gap-2 ${
+                step >= 1 ? "text-purple-600" : "text-purple-300"
+              }`}>
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? "bg-purple-600 text-white" : "bg-purple-100 text-purple-400"}`}
-              >
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  step >= 1
+                    ? "bg-purple-600 text-white"
+                    : "bg-purple-100 text-purple-400"
+                }`}>
                 {step > 1 ? <Check className="w-4 h-4" /> : "1"}
               </div>
               <span className="hidden md:block font-medium">Organization</span>
             </div>
             <div className="w-12 h-px bg-purple-200"></div>
-            <div className={`flex items-center gap-2 ${step >= 2 ? "text-purple-600" : "text-purple-300"}`}>
+            <div
+              className={`flex items-center gap-2 ${
+                step >= 2 ? "text-purple-600" : "text-purple-300"
+              }`}>
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? "bg-purple-600 text-white" : "bg-purple-100 text-purple-400"}`}
-              >
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  step >= 2
+                    ? "bg-purple-600 text-white"
+                    : "bg-purple-100 text-purple-400"
+                }`}>
                 {step > 2 ? <Check className="w-4 h-4" /> : "2"}
               </div>
               <span className="hidden md:block font-medium">Admin Account</span>
             </div>
             <div className="w-12 h-px bg-purple-200"></div>
-            <div className={`flex items-center gap-2 ${step >= 3 ? "text-purple-600" : "text-purple-300"}`}>
+            <div
+              className={`flex items-center gap-2 ${
+                step >= 3 ? "text-purple-600" : "text-purple-300"
+              }`}>
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? "bg-purple-600 text-white" : "bg-purple-100 text-purple-400"}`}
-              >
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  step >= 3
+                    ? "bg-purple-600 text-white"
+                    : "bg-purple-100 text-purple-400"
+                }`}>
                 3
               </div>
               <span className="hidden md:block font-medium">Verification</span>
@@ -62,7 +116,11 @@ export default function Register() {
         </div>
 
         {/* Step Content */}
-        <div className="max-w-2xl mx-auto">
+        <form
+          className="max-w-2xl mx-auto"
+          onSubmit={handleSubmit}
+          ref={formRef}>
+          {/* Step 1 */}
           {step === 1 && (
             <Card className="border-purple-100 bg-white/50 backdrop-blur-sm">
               <CardHeader>
@@ -82,6 +140,7 @@ export default function Register() {
                     </Label>
                     <Input
                       id="orgName"
+                      name="orgName"
                       placeholder="Acme Corporation"
                       className="border-purple-200 focus:border-purple-400"
                     />
@@ -92,8 +151,8 @@ export default function Register() {
                     </Label>
                     <select
                       id="industry"
-                      className="flex h-10 w-full rounded-md border border-purple-200 bg-white px-3 py-2 text-sm focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
-                    >
+                      name="industry"
+                      className="flex h-10 w-full rounded-md border border-purple-200 bg-white px-3 py-2 text-sm focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2">
                       <option value="">Select industry</option>
                       <option value="technology">Technology</option>
                       <option value="healthcare">Healthcare</option>
@@ -112,8 +171,8 @@ export default function Register() {
                     </Label>
                     <select
                       id="size"
-                      className="flex h-10 w-full rounded-md border border-purple-200 bg-white px-3 py-2 text-sm focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
-                    >
+                      name="orgSize"
+                      className="flex h-10 w-full rounded-md border border-purple-200 bg-white px-3 py-2 text-sm focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2">
                       <option value="">Select size</option>
                       <option value="1-10">1-10 employees</option>
                       <option value="11-50">11-50 employees</option>
@@ -128,8 +187,8 @@ export default function Register() {
                     </Label>
                     <select
                       id="country"
-                      className="flex h-10 w-full rounded-md border border-purple-200 bg-white px-3 py-2 text-sm focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
-                    >
+                      name="country"
+                      className="flex h-10 w-full rounded-md border border-purple-200 bg-white px-3 py-2 text-sm focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2">
                       <option value="">Select country</option>
                       <option value="us">United States</option>
                       <option value="ca">Canada</option>
@@ -147,15 +206,16 @@ export default function Register() {
                   </Label>
                   <Input
                     id="website"
+                    name="website"
                     placeholder="https://www.acme.com"
                     className="border-purple-200 focus:border-purple-400"
                   />
                 </div>
 
                 <Button
+                  type="button"
                   onClick={() => setStep(2)}
-                  className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
-                >
+                  className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white">
                   Continue
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
@@ -180,13 +240,23 @@ export default function Register() {
                     <Label htmlFor="firstName" className="text-gray-900">
                       First Name
                     </Label>
-                    <Input id="firstName" placeholder="John" className="border-purple-200 focus:border-purple-400" />
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      placeholder="John"
+                      className="border-purple-200 focus:border-purple-400"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName" className="text-gray-900">
                       Last Name
                     </Label>
-                    <Input id="lastName" placeholder="Doe" className="border-purple-200 focus:border-purple-400" />
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      placeholder="Doe"
+                      className="border-purple-200 focus:border-purple-400"
+                    />
                   </div>
                 </div>
 
@@ -196,6 +266,7 @@ export default function Register() {
                   </Label>
                   <Input
                     id="email"
+                    name="email"
                     type="email"
                     placeholder="john@acme.com"
                     className="border-purple-200 focus:border-purple-400"
@@ -208,7 +279,9 @@ export default function Register() {
                   </Label>
                   <Input
                     id="password"
+                    name="password"
                     type="password"
+                    autoComplete="new-password" 
                     placeholder="Create a strong password"
                     className="border-purple-200 focus:border-purple-400"
                   />
@@ -220,9 +293,11 @@ export default function Register() {
                   </Label>
                   <Input
                     id="confirmPassword"
+                    name="confirmPassword"
                     type="password"
                     placeholder="Confirm your password"
                     className="border-purple-200 focus:border-purple-400"
+                    autoComplete="new-password" 
                   />
                 </div>
 
@@ -232,20 +307,29 @@ export default function Register() {
                   </Label>
                   <Input
                     id="jobTitle"
+                    name="jobTitle"
                     placeholder="IT Administrator"
                     className="border-purple-200 focus:border-purple-400"
                   />
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="terms" className="border-purple-300" />
+                  <Checkbox
+                    id="terms"
+                    name="terms"
+                    className="border-purple-300"
+                  />
                   <Label htmlFor="terms" className="text-sm text-gray-700">
                     I agree to the{" "}
-                    <Link href="#" className="text-purple-600 hover:text-purple-800 underline">
+                    <Link
+                      href="#"
+                      className="text-purple-600 hover:text-purple-800 underline">
                       Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link href="#" className="text-purple-600 hover:text-purple-800 underline">
+                    <Link
+                      href="#"
+                      className="text-purple-600 hover:text-purple-800 underline">
                       Privacy Policy
                     </Link>
                   </Label>
@@ -254,15 +338,14 @@ export default function Register() {
                 <div className="flex gap-3">
                   <Button
                     variant="outline"
+                    type="button"
                     onClick={() => setStep(1)}
-                    className="border-purple-300 text-purple-700 hover:bg-purple-50"
-                  >
+                    className="border-purple-300 text-purple-700 hover:bg-purple-50">
                     Back
                   </Button>
                   <Button
-                    onClick={() => setStep(3)}
-                    className="flex-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
-                  >
+                    type="submit"
+                    className="flex-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white">
                     Create Account
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
@@ -277,7 +360,9 @@ export default function Register() {
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Shield className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle className="text-gray-900">Verify Your Email</CardTitle>
+                <CardTitle className="text-gray-900">
+                  Verify Your Email
+                </CardTitle>
                 <CardDescription className="text-gray-600">
                   We&apos;ve sent a verification link to john@acme.com
                 </CardDescription>
@@ -285,22 +370,26 @@ export default function Register() {
               <CardContent className="space-y-6">
                 <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
                   <p className="text-sm text-gray-700">
-                    Please check your email and click the verification link to activate your account. The link will
-                    expire in 24 hours.
+                    Please check your email and click the verification link to
+                    activate your account. The link will expire in 24 hours.
                   </p>
                 </div>
 
                 <div className="space-y-3">
                   <Button
-                    onClick={() => router.push("/dashboard")}
-                    className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
-                  >
+                    onClick={(e) => {
+                      e.preventDefault();
+                      router.push("/dashboard");
+                    }}
+                    className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white">
                     Go to Dashboard (Demo)
                   </Button>
-                  <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800">
+                  <Button className="text-white w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800">
                     Resend Verification Email
                   </Button>
-                  <Button variant="outline" className="w-full border-purple-300 text-purple-700 hover:bg-purple-50">
+                  <Button
+                    variant="outline"
+                    className="w-full border-purple-300 text-purple-700 hover:bg-purple-50">
                     Change Email Address
                   </Button>
                 </div>
@@ -309,31 +398,34 @@ export default function Register() {
                   Already verified?{" "}
                   <button
                     onClick={() => router.push("/dashboard")}
-                    className="text-purple-700 hover:text-purple-900 underline font-medium"
-                  >
+                    className="text-purple-700 hover:text-purple-900 underline font-medium">
                     Go to Dashboard
                   </button>
                 </p>
               </CardContent>
             </Card>
           )}
-        </div>
+        </form>
 
         {/* Footer */}
         <div className="text-center mt-8">
           <p className="text-gray-600">
             Already have an account?{" "}
-            <Link href="/login" className="text-purple-700 hover:text-purple-900 underline font-medium">
+            <Link
+              href="/login"
+              className="text-purple-700 hover:text-purple-900 underline font-medium">
               Sign in here
             </Link>
           </p>
           <p className="text-gray-600 mt-2">
-            <Link href="/" className="text-purple-700 hover:text-purple-900 underline font-medium">
+            <Link
+              href="/"
+              className="text-purple-700 hover:text-purple-900 underline font-medium">
               ← Back to home
             </Link>
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }
